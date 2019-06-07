@@ -9,4 +9,4 @@ out/
 # Eclipse #
 .settings/
 .classpath
-.project
+.project/
