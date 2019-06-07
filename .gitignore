@@ -5,6 +5,7 @@ target/
 .idea/
 *.iml
 out/
+*.class
 
 # Eclipse #
 .settings/
