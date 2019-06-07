@@ -10,6 +10,7 @@ out/
 # Eclipse #
 .settings/
 .classpath
+<<<<<<< HEAD
 .project
 
 /target
@@ -30,3 +31,6 @@ logs
 /log
 /tmp
 hotspot.log
+=======
+.project/
+>>>>>>> master
