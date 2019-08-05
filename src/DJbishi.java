@@ -78,5 +78,13 @@ public class DJbishi {
 
         int[][] map = new int[N][N];
 
+        for(int k = 0;k<N;k++){
+            for(int i = 0;i<N;i++){
+                for(int j = 0;j<N;j++){
+                    map[i][j] = Math.min(map[i][j],map[i][k]+map[k][j]);
+                }
+            }
+        }
+
     }
 }
