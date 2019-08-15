@@ -16,7 +16,7 @@ public class Main {
         }
         System.out.println(count);*/
         Main main = new Main();
-        main.isPlaindrome("A man, a plan, a canal: Panama");
+        main.removeDuplicates(new int[]{1,1,2});
     }
     private static void dfs(int[] locs,int left, int last, int start, int num, int d, ArrayList<Integer> list){
 
@@ -464,5 +464,185 @@ public class Main {
         getKFromRoot(root.right,k-1);
     }
 
+    /**
+     * 三数之和
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> res= new ArrayList<>();
+        if(nums == null || nums.length == 0){
+            return res;
+        }
+        Arrays.sort(nums);
+        for(int i = 0;i<nums.length-2;i++){
+            if(i>0&&nums[i]==nums[i-1]){
+                continue;
+            }
+            int j = i+1,k = nums.length-1;
+            while (j<k){
+                if(nums[j]+nums[k]+nums[i]==0){
+                    res.add(Arrays.asList(nums[i],nums[j],nums[k]));
+                    while(j<k&&nums[j]==nums[j+1]) j++;
+                    while(j<k&&nums[k]==nums[k-1]) k--;
+                    j++;
+                    k--;
+                }else if(nums[j]+nums[k]+nums[i]<0){
+                    j++;
+                }else{
+                    k--;
+                }
+            }
+        }
+        return res;
+    }
 
+    /**
+     * 删除排序数组中的重复项
+     * @param nums
+     * @return
+     */
+    public int removeDuplicates(int[] nums) {
+        if(nums == null || nums.length==0){
+            return 0;
+        }
+        int j = 0;
+        int cur = nums[0];
+        for(int i = 0;i<nums.length;i++){
+            if(nums[i]==cur){
+
+            }else{
+                cur = nums[i];
+                int tmp = nums[i];
+                nums[i] = nums[++j];
+                nums[j] = tmp;
+            }
+        }
+        for(int i = 0;i<nums.length;i++){
+            System.out.print(nums[i]+" ");
+        }
+        System.out.println(j+1);
+        return j+1;
+    }
+
+    /**
+     * 搜索旋转排序数组
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int search(int[] nums, int target) {
+        int start = 0;
+        int end = nums.length - 1;
+        while (start < end) {
+            int mid = (start + end) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            }
+            if (nums[start] <= nums[mid]) {
+                if (target < nums[mid] && target >= nums[start])
+                    end = mid - 1;
+                else
+                    start = mid + 1;
+            }
+
+            if (nums[mid] <= nums[end]) {
+                if (target > nums[mid] && target <= nums[end])
+                    start = mid + 1;
+                else
+                    end = mid - 1;
+            }
+        }
+        return -1;
+    }
+
+    private int extremeInsertionIndex(int[] nums, int target, boolean left) {
+        int lo = 0;
+        int hi = nums.length;
+
+        while (lo < hi) {
+            int mid = (lo + hi) / 2;
+            if (nums[mid] > target || (left && target == nums[mid])) {
+                hi = mid;
+            }
+            else {
+                lo = mid+1;
+            }
+        }
+
+        return lo;
+    }
+
+    /**
+     * 在排序数组中查找元素的第一个和最后一个位置
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int[] searchRange(int[] nums, int target) {
+        int[] targetRange = {-1, -1};
+
+        int leftIdx = extremeInsertionIndex(nums, target, true);
+
+        // assert that `leftIdx` is within the array bounds and that `target`
+        // is actually in `nums`.
+        if (leftIdx == nums.length || nums[leftIdx] != target) {
+            return targetRange;
+        }
+
+        targetRange[0] = leftIdx;
+        targetRange[1] = extremeInsertionIndex(nums, target, false)-1;
+
+        return targetRange;
+    }
+
+    /**
+     * 组合总和
+     * @param candidates
+     * @param target
+     * @return
+     */
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        Arrays.sort(candidates);
+        backtracking(res,new ArrayList<>(),candidates,target,0);
+        return res;
+    }
+
+    private void backtracking(List<List<Integer>> res, ArrayList<Integer> temp, int[] candidates, int remain, int start) {
+        if(remain < 0 ){
+            return;
+        }else if(remain==0){
+            res.add(new ArrayList<>(temp));
+        }else{
+            for(int i = start;i<candidates.length;i++){
+                temp.add(candidates[i]);
+                backtracking(res,temp,candidates,remain-candidates[i],i);
+                temp.remove(temp.size()-1);
+            }
+        }
+    }
+
+    /**
+     * 组合总和II
+     * @param candidates
+     * @param target
+     * @return
+     */
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        List<List<Integer>> res = new LinkedList<List<Integer>>();
+        backtracking(candidates,0,target,new ArrayList<Integer>(),res);
+        return res;
+    }
+    private void backtracking(int[] cand,int start,int remain,List<Integer>                             temp,List<List<Integer>> res){
+        if(remain<0) return;
+        else if(remain==0) res.add(new ArrayList<Integer>(temp));
+        for(int i = start;i<cand.length;i++){
+            if(i>start && cand[i]==cand[i-1]) continue;
+            temp.add(cand[i]);
+            backtracking(cand,i+1,remain-cand[i],temp,res);
+            temp.remove(temp.size()-1);
+        }
+    }
 }
