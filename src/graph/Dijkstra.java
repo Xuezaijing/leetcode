@@ -13,6 +13,7 @@ public class Dijkstra {
         HashSet<Node> selectedNodes = new HashSet<>();
 
         Node minNode = getMinDistanceAndUnselectedNode(distanceMap,selectedNodes);
+        return null;
     }
 
     private static Node getMinDistanceAndUnselectedNode(HashMap<Node, Integer> distanceMap, HashSet<Node> selectedNodes) {
@@ -23,5 +24,6 @@ public class Dijkstra {
             int distance = entry.getValue();
 
         }
+        return null;
     }
 }
